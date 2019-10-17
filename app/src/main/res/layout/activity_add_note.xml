@@ -21,18 +21,24 @@
             android:layout_margin="16dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edit_note"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:gravity="start"
-                android:hint="@string/add_note"
-                android:minHeight="100dp"
-                android:padding="10dp"
-                android:scrollbars="vertical"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:hint="@string/add_note_hint"
+                    android:minHeight="100dp"
+                    android:padding="10dp"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 android:id="@+id/button_add"

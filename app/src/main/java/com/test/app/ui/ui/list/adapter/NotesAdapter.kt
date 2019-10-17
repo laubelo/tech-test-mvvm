@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.test.app.R
 import com.test.app.models.Note
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.item_note.view.*
 class NotesAdapter(
     private val context: Context,
     private val notes: List<Note>,
-    private val onNoteSelected: OnNoteSelected
+    private val onNoteAction: OnNoteAction
 ) : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = notes.size
@@ -33,12 +32,15 @@ class NotesAdapter(
         fun bindItem(note: Note) {
             itemView.apply {
                 text_note.text = note.text
-                linear_note.setOnClickListener {
-                    onNoteSelected.onSelected(adapterPosition)
+                button_remove.setOnClickListener {
+                    onNoteAction.onRemoved(adapterPosition)
                 }
-                if (adapterPosition == notes.size.minus(1)){
+                button_edit.setOnClickListener {
+                    onNoteAction.onModified(adapterPosition, note)
+                }
+                if (adapterPosition == notes.size.minus(1)) {
                     view_separator.visibility = View.GONE
-                } else{
+                } else {
                     view_separator.visibility = View.VISIBLE
                 }
             }
@@ -48,8 +50,9 @@ class NotesAdapter(
 
     }
 
-    interface OnNoteSelected{
-        fun onSelected(position: Int)
+    interface OnNoteAction {
+        fun onRemoved(position: Int)
+        fun onModified(position: Int, note: Note)
     }
 
 

@@ -7,12 +7,11 @@ import com.test.app.R
 import com.test.app.data.LocalData
 import com.test.app.models.Note
 import com.test.app.ui.common.BaseActivity
-import com.test.app.ui.common.Navigator
 import com.test.app.ui.ui.list.adapter.NotesAdapter
 import com.test.app.utils.Constants
 import kotlinx.android.synthetic.main.activity_list.*
 
-class ListActivity : BaseActivity(), NotesAdapter.OnNoteSelected {
+class ListActivity : BaseActivity(), NotesAdapter.OnNoteAction {
 
     override fun getLayoutId(): Int = R.layout.activity_list
 
@@ -48,8 +47,14 @@ class ListActivity : BaseActivity(), NotesAdapter.OnNoteSelected {
         recycler_view_notes.adapter = adapter
     }
 
-    override fun onSelected(position: Int) {
+    override fun onRemoved(position: Int) {
+        notes.removeAt(position)
+        adapter.notifyItemRemoved(position)
+        adapter.notifyItemRangeChanged(0, notes.size)
+    }
 
+    override fun onModified(position: Int, note: Note) {
+        navigator.goToEdit(this, note, position)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -61,6 +66,19 @@ class ListActivity : BaseActivity(), NotesAdapter.OnNoteSelected {
                     data?.getSerializableExtra("note")?.let {
                         val note = it as Note
                         notes.add(note)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+                Constants.EDIT_NOTE -> {
+                    data?.let {
+                        var note = Note("")
+
+                        it.getSerializableExtra("note")?.let {
+                            note = it as Note
+                        }
+
+                        val position = it.getIntExtra("position", -1)
+                        notes.set(position, note)
                         adapter.notifyDataSetChanged()
                     }
                 }

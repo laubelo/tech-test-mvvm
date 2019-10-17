@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">mysphera-tech-test</string>
     <string name="add_note">Añadir una nota</string>
+    <string name="add_note_hint">Escribe un texto</string>
+    <string name="modify_note">Modificar</string>
+    <string name="remove_note">Eliminar</string>
+    <string name="edit_note">Editar nota</string>
+    <string name="regex_match">El texto no puede contener caracteres especiales</string>
 </resources>
