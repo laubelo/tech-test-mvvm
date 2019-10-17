@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    val navigator = Navigator()
+
     @LayoutRes
     protected abstract fun getLayoutId(): Int
 
